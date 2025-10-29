@@ -1,7 +1,7 @@
 # Self-Hosted GitHub Actions Runner Setup
 
 ## Overview
-This project demonstrates how to set up a **self-hosted GitHub Actions runner** on a local machine and execute a test pipeline. Self-hosted runners give you more control over the hardware, operating system, and software tools used in your CI/CD workflows.
+This project demonstrates how to set up a **self-hosted GitHub Actions runner** on a local machine and execute a test pipeline. Self-hosted runners gives more control over the hardware, operating system, and software tools used CI/CD workflows.
 
 ---
 
@@ -11,7 +11,7 @@ This project demonstrates how to set up a **self-hosted GitHub Actions runner** 
 - A Linux machine (physical or virtual)
 - `curl` and `tar` utilities installed
 - Stable internet connection
-- Administrator/sudo access on your machine
+- Administrator/sudo access
 
 ---
 
@@ -19,20 +19,20 @@ This project demonstrates how to set up a **self-hosted GitHub Actions runner** 
 
 ### 1. Create a GitHub Repository
 
-Create a new repository on GitHub named `self-hosted-runner-demo` (or any name you prefer).
+Create a new repository on GitHub named `self-hosted-runner`.
 
 ### 2. Register the Self-Hosted Runner
 
-Navigate to your repository on GitHub:
+Navigate to the repository on GitHub:
 
 1. Go to **Settings** → **Actions** → **Runners**
 2. Click **New self-hosted runner**
-3. Select your operating system ( **Linux**)
+3. Select operating system ( **Linux**)
 4. Select architecture ( **x64**)
 
 ### 3. Download and Configure the Runner
 
-Run the following commands on your local machine:
+Run the following commands on the local machine:
 
 ```bash
 # Create a directory for the runner
@@ -56,16 +56,19 @@ tar xzf ./actions-runner-linux-x64-2.329.0.tar.gz
 
 > **Note:** Replace `YOUR_USERNAME`, `YOUR_REPO`, and `YOUR_TOKEN` (token is generated automatically) with your actual values from the GitHub runner setup page.
 
+
 ### 4. Verify Connection
 
-After successful registration, you should see:
+After successful registration, connected to github with show up:
 
 ```
 ✓ Connected to GitHub
 Runner listening for jobs
+
 ```
 
 ![Workflow success](./images/runner-success.png)
+
 
 Runner is now active and waiting for workflow jobs.
 
@@ -94,7 +97,7 @@ git commit -m "Add test workflow for self-hosted runner"
 git push origin main
 ```
 
-### Navigate to the **Actions** tab in the GitHub repository to see the workflow executing on your local machine.
+### Navigate to the **Actions** tab in the GitHub repository to see the workflow executing on local machine.
 ---
 
 ![Workflow success](./images/workflow-success.png)
@@ -128,7 +131,7 @@ git push origin main
 
 ## Production Best Practices
 
-If deploying self-hosted runners in a production environment, consider these improvements:
+These are the recommendation for improvement, if deploying self-hosted runners in a production environment
 
 | Aspect | Recommendation |
 |--------|----------------|
@@ -137,7 +140,6 @@ If deploying self-hosted runners in a production environment, consider these imp
 | Monitoring | Add logging and monitoring solutions to track runner health and job execution |
 | Maintenance | Automate runner updates and implement cleanup procedures for old versions |
 | Ephemeral Runners | Use ephemeral runners that are destroyed after each job for better security |
-
 
 
 ## Repository Link
