@@ -14,8 +14,12 @@ jobs:
 
       - name: Display runner information
         run: |
-          echo "✅ Workflow is running on a self-hosted runner!"
-          echo "🏠 Hostname: $(hostname)"
-          echo "👤 User: $USER"
-          echo "📂 Current directory: $(pwd)"
-          echo "🕒 Date: $(date)"
+          echo "Workflow is running on a self-hosted runner!"
+
+          echo "Hostname: $(hostname)"
+
+          echo "User: $USER"
+
+          echo "Current directory: $(pwd)"
+          
+          echo "Date: $(date)"
