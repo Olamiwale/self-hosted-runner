@@ -1,0 +1,21 @@
+name: Test Self-Hosted Runner
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted-runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display runner information
+        run: |
+          echo "✅ Workflow is running on a self-hosted runner!"
+          echo "🏠 Hostname: $(hostname)"
+          echo "👤 User: $USER"
+          echo "📂 Current directory: $(pwd)"
+          echo "🕒 Date: $(date)"
