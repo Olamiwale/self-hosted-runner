@@ -144,4 +144,4 @@ These are the recommendation for improvement, if deploying self-hosted runners i
 
 ## Repository Link
 
-🔗 [GitHub Repository](https://github.com/Olamiwale/self-hosted-runner.git)
+[GitHub Repository](https://github.com/Olamiwale/self-hosted-runner.git)
