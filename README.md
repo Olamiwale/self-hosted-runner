@@ -1,98 +1,145 @@
 # Self-Hosted GitHub Actions Runner Setup
 
 ## Overview
-This project demonstrates how to set up a **self-hosted GitHub Actions runner** on a local PC and run a **test pipeline**.
+This project demonstrates how to set up a **self-hosted GitHub Actions runner** on a local machine and execute a test pipeline. Self-hosted runners give you more control over the hardware, operating system, and software tools used in your CI/CD workflows.
 
+---
+
+## Prerequisites
+
+- A GitHub account with repository access
+- A Linux machine (physical or virtual)
+- `curl` and `tar` utilities installed
+- Stable internet connection
+- Administrator/sudo access on your machine
+
+---
 
 ## Steps to Reproduce
 
-### 1. Create Repository
-Created a new GitHub repo named `self-hosted-runner`.
+### 1. Create a GitHub Repository
 
-### 2. Register the Runner
+Create a new repository on GitHub named `self-hosted-runner-demo` (or any name you prefer).
 
-- Went to **Settings → Actions → Runners → New self-hosted runner**
+### 2. Register the Self-Hosted Runner
 
-- Selected runner image ( Linux )
+Navigate to your repository on GitHub:
 
-- Selected default x64 Architecture 
+1. Go to **Settings** → **Actions** → **Runners**
+2. Click **New self-hosted runner**
+3. Select your operating system ( **Linux**)
+4. Select architecture ( **x64**)
 
-- Downloaded and configured the runner: 
+### 3. Download and Configure the Runner
 
-follow the command prompt
- 
-$ mkdir actions-runner && cd actions-runner# Download the latest runner package
+Run the following commands on your local machine:
 
-$ curl -o actions-runner-linux-x64-2.329.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.329.0/actions-runner-linux-x64-2.329.0.tar.gz# (Optional: To validate the hash)
+```bash
+# Create a directory for the runner
+mkdir actions-runner && cd actions-runner
 
-$ echo "194f1e1e4bd02f80b7e9633fc546084d8d4e19f3928a324d512ea53430102e1d  actions-runner-linux-x64-2.329.0.tar.gz" | shasum -a 256 -c# Extract the installer
+# Download the latest runner package
+curl -o actions-runner-linux-x64-2.329.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.329.0/actions-runner-linux-x64-2.329.0.tar.gz
 
-$ tar xzf ./actions-runner-linux-x64-2.329.0.tar.gz
+# Optional: Validate the hash
+echo "194f1e1e4bd02f80b7e9633fc546084d8d4e19f3928a324d512ea53430102e1d  actions-runner-linux-x64-2.329.0.tar.gz" | shasum -a 256 -c
 
+# Extract the installer
+tar xzf ./actions-runner-linux-x64-2.329.0.tar.gz
 
-### 3. Verify Connection
+# Configure the runner (follow the prompts)
+./config.sh --url https://github.com/YOUR_USERNAME/YOUR_REPO --token YOUR_TOKEN
 
-After registration, the terminal displayed:
+# Start the runner
+./run.sh
+```
+
+> **Note:** Replace `YOUR_USERNAME`, `YOUR_REPO`, and `YOUR_TOKEN` (token is generated automatically) with your actual values from the GitHub runner setup page.
+
+### 4. Verify Connection
+
+After successful registration, you should see:
 
 ```
-√ Connected to GitHub
-Runner listening for Jobs
+✓ Connected to GitHub
+Runner listening for jobs
 ```
 
-### 4. Add Workflow File
+![Workflow success](./images/runner-success.png)
 
-Created `.github/workflows/test-runner.yml` to test the created self-hosted runner
+Runner is now active and waiting for workflow jobs.
 
+### 5. Create a Workflow File
 
-self-hosted-runner-demo/
+Create the following file structure in your repository:
+
+```
+self-hosted-runner/
 ├── .github/
 │   └── workflows/
-│       └── test-runner.yml
+│       └── pipeline.yml
 └── README.md
+```
+
+Example workflow file (`.github/workflows/pipeline.yml`):
 
 
+### 6. Push and Test
 
-### 5. Push and Trigger
+Commit and push your changes to trigger the workflow:
 
-Committed and pushed changes.
-Observed workflow successfully executed on **my local PC**.
+```bash
+git add .
+git commit -m "Add test workflow for self-hosted runner"
+git push origin main
+```
 
+Navigate to the **Actions** tab in the GitHub repository to see the workflow executing on your local machine.
+---
+
+![Workflow success](./images/workflow-success.png)
 
 
 ## Challenges & Solutions
 
-Runner failed to connect due to firewall
+### Challenge 1: Runner Failed to Connect Due to Firewall
+**Solution:** Opened necessary ports and whitelisted GitHub's IP ranges in the firewall settings.
 
+![Workflow success](./images/runner-failed.png)
 
-Workflow stuck in “Waiting for Runner”
+### Challenge 2: Workflow Stuck in "Waiting for Runner"
+**Solution:** Ensured the runner was active by running `./run.sh` and verified the runner appeared as "Idle" in the GitHub repository settings.
 
+![Workflow success](./images/runner-not-running.png)
 
-
-## Security Considerations
-
-* Generated runner **token** is **temporary** (valid for a few minutes only).
-* Never commit or expose the token in any file.
-
-* Regularly **remove inactive runners**
-* Use **labels** to isolate environments (e.g., dev-runner vs prod-runner).
-* Keep system and dependencies updated to avoid vulnerabilities.
 
 ---
 
-## What I'd Do Differently in Production
+## Security Considerations
+
+**Important Security Notes:**
+
+- The runner token is should never be commit it to version control.
+- Regularly remove inactive runners from your repository settings.
+- Use runner labels to isolate different environments (e.g., `dev-runner`).
+- Keep your system and runner software updated to patch security vulnerabilities.
+
+---
+
+## Production Best Practices
+
+If deploying self-hosted runners in a production environment, consider these improvements:
+
+| Aspect | Recommendation |
+|--------|----------------|
+| Isolation | Run runners inside Docker containers or dedicated VMs to prevent cross-contamination |
+| Scaling | Implement autoscaling with multiple runners to handle parallel jobs |
+| Monitoring | Add logging and monitoring solutions to track runner health and job execution |
+| Maintenance | Automate runner updates and implement cleanup procedures for old versions |
+| Ephemeral Runners | Use ephemeral runners that are destroyed after each job for better security |
 
 
- **Isolation**    Run self-hosted runner in a VM or Docker container
 
- **Scaling**      Use multiple runners with autoscaling                        
- **Security**     Restrict network access and secrets to specific environments 
- **Monitoring**   Add logging/monitoring       
- **Maintenance**  Automate updates and cleanup for old runner versions         
+## Repository Link
 
-
-
-## 📎 Repository
-
-🔗 [GitHub Repository Link](https://github.com/<your-username>/self-hosted-runner-demo)
-
-
+🔗 [GitHub Repository](https://github.com/Olamiwale/self-hosted-runner.git)
