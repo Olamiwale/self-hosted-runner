@@ -94,7 +94,7 @@ git commit -m "Add test workflow for self-hosted runner"
 git push origin main
 ```
 
-***Navigate to the **Actions** tab in the GitHub repository to see the workflow executing on your local machine.***
+### Navigate to the **Actions** tab in the GitHub repository to see the workflow executing on your local machine.
 ---
 
 ![Workflow success](./images/workflow-success.png)
