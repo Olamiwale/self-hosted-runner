@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: LAPTOP-ANF84N90
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
